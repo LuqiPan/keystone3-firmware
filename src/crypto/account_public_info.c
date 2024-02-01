@@ -53,7 +53,7 @@ static void GetStringValue(cJSON *obj, const char *key, char *value, uint32_t ma
 static AccountPublicKeyItem_t g_accountPublicKey[XPUB_TYPE_NUM];
 static uint8_t g_tempPublicKeyAccountIndex = INVALID_ACCOUNT_INDEX;
 
-static const char g_xpubInfoVersion[] = "1.0.0";
+static const char g_xpubInfoVersion[] = "1.0.1";
 
 static const ChainItem_t g_chainTable[] = {
     {XPUB_TYPE_BTC,                   SECP256K1,    "btc",                      "M/49'/0'/0'"       },
