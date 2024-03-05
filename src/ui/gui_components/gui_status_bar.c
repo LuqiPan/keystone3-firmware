@@ -105,6 +105,7 @@ const static CoinWalletInfo_t g_walletBtn[] = {
 #ifndef BTC_ONLY
     {WALLET_LIST_ETERNL, "Connect Eternl Wallet", &walletEternl},
 #endif
+    {WALLET_LIST_YOROI, "Connect Yoroi Wallet", &walletYoroi},
     {WALLET_LIST_BLUE, "Connect BlueWallet", &walletBluewallet},
 #ifndef BTC_ONLY
     {WALLET_LIST_SUB, "Connect SubWallet", &walletSubwallet},
