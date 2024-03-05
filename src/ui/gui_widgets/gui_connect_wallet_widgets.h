@@ -13,6 +13,7 @@ typedef enum {
 #ifndef BTC_ONLY
     WALLET_LIST_ETERNL,
 #endif
+    WALLET_LIST_YOROI,
     WALLET_LIST_BLUE,
 #ifndef BTC_ONLY
     WALLET_LIST_SUB,
