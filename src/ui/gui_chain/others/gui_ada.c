@@ -372,7 +372,7 @@ char *GuiGetYoroiBaseAddressByIndex(uint16_t index)
     xPub = GetCurrentAccountPublicKey(XPUB_TYPE_ADA_0 + index);
     result = cardano_get_base_address(xPub, 0, 1);
     if (result->error_code == 0) {
-        strcpy_s(g_yoroiAddr, ADA_ADD_MAX_LEN, result->data);
+        strcpy(g_yoroiAddr, result->data);
     }
     free_simple_response_c_char(result);
     return g_yoroiAddr;

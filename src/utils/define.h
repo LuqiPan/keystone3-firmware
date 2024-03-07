@@ -9,6 +9,13 @@
 #define UNUSED(X) (void)X
 #endif
 
+#define BUFFER_SIZE_16                  (16)
+#define BUFFER_SIZE_32                  (32)
+#define BUFFER_SIZE_64                  (64)
+#define BUFFER_SIZE_128                 (128)
+#define BUFFER_SIZE_256                 (256)
+#define BUFFER_SIZE_512                 (512)
+
 #define GET_STRING(X)                   #X
 #define NUMBER_OF_ARRAYS(arr)           (sizeof(arr)/sizeof((arr)[0]))
 #define FIELD_POS(type, field)          ((uint32_t) & ((type *)0)->field)

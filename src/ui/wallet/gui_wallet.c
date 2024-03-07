@@ -356,7 +356,7 @@ UREncodeResult *GuiGetYoroiDataByIndex(uint16_t index)
     GetMasterFingerPrint(mfp);
     char* xpub = GetCurrentAccountPublicKey(MapAdaIndex2ChainType(index));
     char path[BUFFER_SIZE_32] = {0};
-    snprintf_s(path, BUFFER_SIZE_32, "1852'/1815'/%u'", index);
+    sprintf(path, "1852'/1815'/%u'", index);
     ExtendedPublicKey xpubs[1];
     xpubs[0].path = path;
     xpubs[0].xpub = xpub;

@@ -877,7 +877,7 @@ static void AddChainAddress(void)
     lv_obj_add_flag(g_bottomCont, LV_OBJ_FLAG_CLICKABLE);
 
     char name[BUFFER_SIZE_32] = {0};
-    snprintf_s(name, BUFFER_SIZE_32, "Account-%d", g_chainAddressIndex[GetCurrentAccountIndex()] + 1);
+    sprintf(name, "Account-%d", g_chainAddressIndex[GetCurrentAccountIndex()] + 1);
     lv_obj_t *label = GuiCreateLabel(g_bottomCont, name);
     lv_obj_align(label, LV_ALIGN_TOP_LEFT, 36, 24);
 
