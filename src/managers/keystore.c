@@ -245,6 +245,24 @@ int32_t GetAccountSlip39Ems(uint8_t accountIndex, uint8_t *slip39Ems, const char
     return ret;
 }
 
+int32_t SetRSAPrivateKey(uint8_t accountIndex, const uint8_t *n, const uint8_t *d, const char *password)
+{
+    int32_t ret;
+    AccountSecret_t accountSecret;
+
+    ASSERT(accountIndex <= 2);
+    do {
+        ret = LoadAccountSecret(accountIndex, &accountSecret, password);
+        CHECK_ERRCODE_BREAK("LoadAccountSecret", ret);
+        memcpy_s(accountSecret.rsa_n, RSA_KEY_LEN, n, RSA_KEY_LEN);
+        memcpy_s(accountSecret.rsa_d, RSA_KEY_LEN, d, RSA_KEY_LEN);
+        ret = SaveAccountSecret(accountIndex, &accountSecret, password, false);
+        CHECK_ERRCODE_BREAK("SaveAccountSecret", ret);
+    } while (0);
+
+    CLEAR_OBJECT(accountSecret);
+    return ret;
+}
 
 /// @brief Change password.
 /// @param[in] accountIndex Account index, 0~2.
@@ -474,7 +492,7 @@ static int32_t SaveAccountSecret(uint8_t accountIndex, const AccountSecret_t *ac
         KEYSTORE_PRINT_ARRAY("encryptSeed", encryptSeed, SEED_LEN);
         KEYSTORE_PRINT_ARRAY("slip39Ems", slip39Ems, SLIP39_EMS_LEN);
         KEYSTORE_PRINT_ARRAY("encryptReservedData", encryptReservedData, SE_DATA_RESERVED_LEN);
-        hmac_sha256(authKey, AUTH_KEY_LEN, accountEncryptData, ACCOUNT_TOTAL_LEN - HMAC_LEN, hmac);
+        hmac_sha256(authKey, AUTH_KEY_LEN, accountEncryptData, ACCOUNT_TOTAL_LEN - HMAC_LEN - RSA_KEY_LEN * 2, hmac);
         KEYSTORE_PRINT_ARRAY("accountEncryptData", accountEncryptData, ACCOUNT_TOTAL_LEN);
         KEYSTORE_PRINT_ARRAY("authKey", authKey, AUTH_KEY_LEN);
         //param[0] = accountSecret->entropyLen;
@@ -576,7 +594,7 @@ static int32_t LoadAccountSecret(uint8_t accountIndex, AccountSecret_t *accountS
         CHECK_ERRCODE_BREAK("read hmac", ret);
         ret = SE_HmacEncryptRead(param, accountIndex * PAGE_NUM_PER_ACCOUNT + PAGE_INDEX_PARAM);
         CHECK_ERRCODE_BREAK("read param", ret);
-        hmac_sha256(authKey, AUTH_KEY_LEN, accountEncryptData, ACCOUNT_TOTAL_LEN - HMAC_LEN, hmacCalc);
+        hmac_sha256(authKey, AUTH_KEY_LEN, accountEncryptData, ACCOUNT_TOTAL_LEN - HMAC_LEN - RSA_KEY_LEN * 2, hmacCalc);
         KEYSTORE_PRINT_ARRAY("accountEncryptData", accountEncryptData, ACCOUNT_TOTAL_LEN);
         KEYSTORE_PRINT_ARRAY("authKey", authKey, AUTH_KEY_LEN);
         ret = ((memcmp(hmacCalc, hmac, HMAC_LEN) == 0) ? SUCCESS_CODE : ERR_KEYSTORE_AUTH);

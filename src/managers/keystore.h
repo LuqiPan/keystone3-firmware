@@ -20,7 +20,8 @@
 #define SLIP39_EMS_LEN                          32
 #define SE_DATA_RESERVED_LEN                    32
 #define HMAC_LEN                                32
-#define ACCOUNT_TOTAL_LEN                       (AES_IV_LEN + ENTROPY_MAX_LEN + SEED_LEN + SLIP39_EMS_LEN + SE_DATA_RESERVED_LEN + HMAC_LEN)
+#define RSA_KEY_LEN                             512
+#define ACCOUNT_TOTAL_LEN                       (AES_IV_LEN + ENTROPY_MAX_LEN + SEED_LEN + SLIP39_EMS_LEN + SE_DATA_RESERVED_LEN + HMAC_LEN + RSA_KEY_LEN * 2)
 #define PARAM_LEN                               32
 
 #define ITERATION_TIME                          700
@@ -31,6 +32,8 @@ typedef struct {
     uint8_t slip39Ems[SLIP39_EMS_LEN];
     uint8_t reservedData[SE_DATA_RESERVED_LEN];
     uint8_t entropyLen;
+    uint8_t rsa_n[RSA_KEY_LEN];
+    uint8_t rsa_d[RSA_KEY_LEN];
 } AccountSecret_t;
 
 typedef struct {
@@ -47,6 +50,7 @@ int32_t GetAccountSeed(uint8_t accountIndex, uint8_t *seed, const char *password
 int32_t GetAccountSlip39Ems(uint8_t accountIndex, uint8_t *slip39Ems, const char *password);
 int32_t ChangePassword(uint8_t accountIndex, const char *newPassword, const char *password);
 int32_t VerifyPassword(uint8_t *accountIndex, const char *password);
+int32_t SetRSAPrivateKey(uint8_t accountIndex, const uint8_t *n, const uint8_t *d, const char *password);
 
 bool CheckPassphraseSame(uint8_t accountIndex, const char *passphrase);
 char* GetPassphrase(uint8_t accountIndex);
